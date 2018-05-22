@@ -28,7 +28,7 @@ public class MainController : MonoBehaviour {
 		Init ();
 	}
 
-	void Init () {
+	public void Init () {
 		filterOffsetY = -1f;
 		point = 0;
 		objGameOver.SetActive (false);
