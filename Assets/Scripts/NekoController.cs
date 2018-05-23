@@ -12,13 +12,13 @@ public class NekoController : MonoBehaviour {
 	bool isShow = false;
 	bool isBingo = false;
 
-	enum NekoType {
+	public enum NekoType {
 		Neko = 0,
 		Inu,
 		NekoRainbow,
 	}
 
-	NekoType nekoType;
+	public NekoType nekoType;
 
 
 	public void Init (MainController parent) {

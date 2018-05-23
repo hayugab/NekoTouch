@@ -12,6 +12,8 @@ public class MainController : MonoBehaviour {
 	[SerializeField] int nekoNum;
 	[SerializeField] BoxCollider2D filter;
 	[SerializeField] GameObject objGameOver;
+	[SerializeField] AudioSource damageSound;
+	[SerializeField] float filterSpeed;
 
 	GameObject nekoPrefab;
 	int score = 0;
@@ -71,7 +73,7 @@ public class MainController : MonoBehaviour {
 		}
 
 		if (point == 0) {
-			filterOffsetY += 0.01f;
+			filterOffsetY += filterSpeed;
 		} else {
 			filterOffsetY += point * -0.1f;		
 		}
