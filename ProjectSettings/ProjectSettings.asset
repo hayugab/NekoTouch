@@ -157,7 +157,8 @@ PlayerSettings:
   resolutionScalingMode: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    iOS: com.Test.NekoTouch
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
@@ -176,7 +177,7 @@ PlayerSettings:
   VertexChannelCompressionMask:
     serializedVersion: 2
     m_Bits: 238
-  iPhoneSdkVersion: 989
+  iPhoneSdkVersion: 988
   iOSTargetOSVersionString: 7.0
   tvOSSdkVersion: 0
   tvOSRequireExtendedGameController: 0
