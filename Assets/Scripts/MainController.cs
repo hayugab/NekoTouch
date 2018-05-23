@@ -12,8 +12,8 @@ public class MainController : MonoBehaviour {
 	[SerializeField] int nekoNum;
 	[SerializeField] BoxCollider2D filter;
 	[SerializeField] GameObject objGameOver;
-	[SerializeField] AudioSource damageSound;
 	[SerializeField] float filterSpeed;
+	[SerializeField] AudioSource btnSound;
 
 	GameObject nekoPrefab;
 	int score = 0;
@@ -30,7 +30,7 @@ public class MainController : MonoBehaviour {
 		Init ();
 	}
 
-	public void Init () {
+	void Init () {
 		filterOffsetY = -1f;
 		point = 0;
 		objGameOver.SetActive (false);
@@ -44,6 +44,11 @@ public class MainController : MonoBehaviour {
 			var neko = nekoObj.GetComponent<NekoController> ();
 			neko.Init (this);
 		}		
+	}
+
+	public void retryInit() {
+		btnSound.Play ();
+		Init ();
 	}
 		
 	void Awake () {
