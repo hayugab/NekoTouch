@@ -788,7 +788,7 @@ MonoBehaviour:
   nekoNum: 50
   filter: {fileID: 717566447}
   objGameOver: {fileID: 1906650649}
-  filterSpeed: 0.01
+  filterSpeed: 0.005
   btnSound: {fileID: 1010363069}
 --- !u!114 &1119176583
 MonoBehaviour:
