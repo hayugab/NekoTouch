@@ -6,9 +6,15 @@ public class HomeController : MonoBehaviour {
 
 	[SerializeField] AudioSource damageSound;
 	[SerializeField] AudioSource pointSound;
-	[SerializeField] BoxCollider2D home;
+	[SerializeField] AudioSource rainbowSound;
+ 	[SerializeField] BoxCollider2D home;
 	[SerializeField] NekoController.NekoType type;
 	[SerializeField] MainController mainController;
+	[SerializeField] Animation pointAnim;
+	[SerializeField] Animation damageAnim;
+	[SerializeField] Animation rainbowAnim;
+
+
 	const int NORMAL_POINT = 1;
 	const int DAMAGE_POINT = -3;
 	const int SPECIAL_POINT = 5;
@@ -25,8 +31,6 @@ public class HomeController : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D c)
 	{
 		var neko = c.GetComponent<NekoController> ();
-		Debug.Log (neko);
-
 
 		switch (neko.nekoType) {
 		case NekoController.NekoType.Inu:
@@ -47,6 +51,7 @@ public class HomeController : MonoBehaviour {
 
 	void NormalPoint(NekoController neko) {
 		pointSound.Play ();
+		pointAnim.Play ();
 		mainController.SetPoint (NORMAL_POINT);
 		mainController.DestroyNeko (neko);
 		mainController.AddNeko ();
@@ -54,13 +59,21 @@ public class HomeController : MonoBehaviour {
 
 	void DamagePoint (NekoController neko) {
 		damageSound.Play ();
+		damageAnim.Play ();
 		mainController.SetPoint (DAMAGE_POINT);
 		mainController.DestroyNeko (neko);
 		mainController.AddNeko ();
 	} 
 
 	void SpecialPoint (NekoController neko) {
-		pointSound.Play ();
+		if (rainbowSound != null) {
+			rainbowSound.Play ();
+			pointSound.Play ();
+		}
+		if (rainbowAnim != null) {
+			rainbowAnim.Play ();
+			pointAnim.Play ();
+		}
 		mainController.SetPoint (SPECIAL_POINT);
 		mainController.DestroyNeko (neko);
 		mainController.AddNeko ();
