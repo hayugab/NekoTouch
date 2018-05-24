@@ -68,6 +68,8 @@ public class NekoController : MonoBehaviour {
 
 	void OnMouseDown ()
 	{
+		if (mainController.IsGameOver)
+			return;
 		iTween.PunchScale (this.gameObject, iTween.Hash (
 			"x", 0.3f,
 			"y", 0.3f,
@@ -86,12 +88,16 @@ public class NekoController : MonoBehaviour {
 
 	void OnMouseDrag ()
 	{
+		if (mainController.IsGameOver)
+			return;
 		Vector3 currentScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		Vector3 currentPosition = Camera.main.ScreenToWorldPoint (currentScreenPoint) + this.offset;
 		transform.position = currentPosition;
 	}
 
 	void OnMouseUp () {
+		if (mainController.IsGameOver)
+			return;
 		iTween.PunchScale (this.gameObject, iTween.Hash (
 			"x", 0.3f,
 			"y", 0.3f,
@@ -108,6 +114,8 @@ public class NekoController : MonoBehaviour {
 	}
 
 	void Update () {
+
+		return;
 		if (transform.position.y > 6) {
 			//猫サイドに投げられた時
 			int point = 0;
@@ -142,8 +150,6 @@ public class NekoController : MonoBehaviour {
 					break;
 				}
 			}
-
-			mainController.SetPoint (point);
 			mainController.AddNeko ();
 			Destroy (this.gameObject);
 		}

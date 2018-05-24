@@ -15,11 +15,25 @@ public class MainController : MonoBehaviour {
 	[SerializeField] float filterSpeed;
 	[SerializeField] AudioSource btnSound;
 
+	List<NekoController> nekoList = new List<NekoController> ();
+
 	GameObject nekoPrefab;
 	int score = 0;
 	float filterOffsetY;
 	bool down = false;
+	bool isGameOver = false;
 	int point = 0;
+	int timeCount = 0;
+
+
+	const int TIME_COUNT_MAX = 10;
+
+
+	public bool IsGameOver {
+		get { 
+			return isGameOver;
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -33,6 +47,9 @@ public class MainController : MonoBehaviour {
 	void Init () {
 		filterOffsetY = -1f;
 		point = 0;
+		score = 0;
+		isGameOver = false;
+		textScore.text = score.ToString ();
 		objGameOver.SetActive (false);
 
 		foreach(Transform child in objField.gameObject.transform){
@@ -43,6 +60,7 @@ public class MainController : MonoBehaviour {
 			var nekoObj = Instantiate (nekoPrefab, objField.gameObject.transform);
 			var neko = nekoObj.GetComponent<NekoController> ();
 			neko.Init (this);
+			nekoList.Add (neko);
 		}		
 	}
 
@@ -59,32 +77,52 @@ public class MainController : MonoBehaviour {
 		nekoPrefab = (GameObject)Resources.Load ("Prefabs/Neko");
 	}
 
+	public void DestroyNeko(NekoController neko) {
+		nekoList.Remove (neko);
+		Destroy (neko.gameObject);
+	}
+
+	public void DestroyAllNeko() {
+		foreach (var neko in nekoList) {
+			nekoList.Remove (neko);
+			Destroy (neko.gameObject);
+		}
+		Init ();
+	}
+
 	public void AddNeko () {
 		var nekoObj = Instantiate (nekoPrefab, objField.gameObject.transform);
 		var neko = nekoObj.GetComponent<NekoController> ();
 		neko.Init (this);
+		nekoList.Add (neko);
 	}
 
 	public void SetPoint (int point) {
 		this.point = point;
+		score += point * 5;
+		textScore.text = score.ToString ();
+		down = true;
+		timeCount = 0;
 	}
 
 	void Update () {
 		if (filterOffsetY > 1.5f) {
 			objGameOver.SetActive (true);
-
-//			Init ();
+			isGameOver = true;
 			return;
 		}
 
-		if (point == 0) {
-			filterOffsetY += filterSpeed;
+		if (down) {
+			filterOffsetY -= filterSpeed * point;		
+			timeCount++;
+			if (TIME_COUNT_MAX == timeCount)
+				down = false;
 		} else {
-			filterOffsetY += point * -0.1f;		
+			filterOffsetY += filterSpeed;
 		}
 
 		filter.transform.position = new Vector3 (filter.transform.position.x, filterOffsetY, filter.transform.position.z);
 	
-		point = 0;
+
 	}
 }
