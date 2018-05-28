@@ -12,6 +12,7 @@ public class SceneLoadController : MonoBehaviour {
 	}
 
 	IEnumerator GoToTitleScene() {
+		SaveController.SetHighScore (0);
 		yield return new WaitForSeconds(2.0f);
 		Application.LoadLevel ("title");
 	}

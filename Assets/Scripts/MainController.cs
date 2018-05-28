@@ -17,6 +17,8 @@ public class MainController : MonoBehaviour {
 	[SerializeField] AudioSource mainBGM;
 	[SerializeField] AudioSource gameoverBGM;
 	[SerializeField] GameObject objHighScore;
+	[SerializeField] Text objGameOverScore;
+	[SerializeField] GameObject objScore;
 
 	List<NekoController> nekoList = new List<NekoController> ();
 
@@ -52,6 +54,7 @@ public class MainController : MonoBehaviour {
 		point = 0;
 		score = 0;
 		isGameOver = false;
+		objScore.gameObject.SetActive (true);
 		textScore.text = score.ToString ();
 		objGameOver.SetActive (false);
 		gameoverBGM.Stop ();
@@ -115,6 +118,8 @@ public class MainController : MonoBehaviour {
 		isGameOver = true;
 		mainBGM.Stop ();
 		gameoverBGM.Play ();
+		objGameOverScore.text = score.ToString ();
+		objScore.gameObject.SetActive (false);
 		bool isHighScore = score > SaveController.GetHighScore ();
 		if (isHighScore)
 			SaveController.SetHighScore (score);
