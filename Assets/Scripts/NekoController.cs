@@ -16,6 +16,7 @@ public class NekoController : MonoBehaviour {
 		Neko = 0,
 		Inu,
 		NekoRainbow,
+		InuRainbow
 	}
 
 	public NekoType nekoType;
@@ -28,9 +29,11 @@ public class NekoController : MonoBehaviour {
 
 	void ToggleNeko () {
 		int index = 0;
-		index = UnityEngine.Random.Range (0, 20);
+		index = UnityEngine.Random.Range (0, 80);
 		if (index == 10)
 			index = (int)NekoType.NekoRainbow;
+		else if (index == 20)
+			index = (int)NekoType.InuRainbow;
 		else
 			index = index % 2;
 		SwitchNeko (index);
@@ -92,6 +95,10 @@ public class NekoController : MonoBehaviour {
 			return;
 		Vector3 currentScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		Vector3 currentPosition = Camera.main.ScreenToWorldPoint (currentScreenPoint) + this.offset;
+		if (transform.position.y >= 1.2f) {
+			OnMouseUp ();
+			return;
+		}
 		transform.position = currentPosition;
 	}
 
@@ -105,54 +112,10 @@ public class NekoController : MonoBehaviour {
 		));
 		SwitchEnableCollider (true);
 		rigidbody.AddForce (Vector3.up * 100);
-
 	}
 
 	void SwitchEnableCollider (bool enable) {
 		box.enabled = enable;
 		circle.enabled = enable;
 	}
-
-	void Update () {
-
-		return;
-		if (transform.position.y > 6) {
-			//猫サイドに投げられた時
-			int point = 0;
-			if (transform.position.x > 0) {
-				switch (nekoType) {
-				case NekoType.Neko:
-					point = 1;
-					break;
-				case NekoType.NekoRainbow:
-					point = 3;
-					break;
-				case NekoType.Inu:
-					point = -1;
-					break;
-				default:
-					break;
-				}
-			}
-
-			else {
-				switch (nekoType) {
-				case NekoType.Neko:
-					point = -1;
-					break;
-				case NekoType.NekoRainbow:
-					point = -5;
-					break;
-				case NekoType.Inu:
-					point = 1;
-					break;
-				default:
-					break;
-				}
-			}
-			mainController.AddNeko ();
-			Destroy (this.gameObject);
-		}
-	}
-		
 }

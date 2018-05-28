@@ -14,6 +14,9 @@ public class MainController : MonoBehaviour {
 	[SerializeField] GameObject objGameOver;
 	[SerializeField] float filterSpeed;
 	[SerializeField] AudioSource btnSound;
+	[SerializeField] AudioSource mainBGM;
+	[SerializeField] AudioSource gameoverBGM;
+	[SerializeField] GameObject objHighScore;
 
 	List<NekoController> nekoList = new List<NekoController> ();
 
@@ -51,6 +54,8 @@ public class MainController : MonoBehaviour {
 		isGameOver = false;
 		textScore.text = score.ToString ();
 		objGameOver.SetActive (false);
+		gameoverBGM.Stop ();
+		mainBGM.Play ();
 
 		foreach(Transform child in objField.gameObject.transform){
 			Destroy(child.gameObject);
@@ -105,10 +110,25 @@ public class MainController : MonoBehaviour {
 		timeCount = 0;
 	}
 
+	void InitGameOver () {
+		objGameOver.SetActive (true);
+		isGameOver = true;
+		mainBGM.Stop ();
+		gameoverBGM.Play ();
+		bool isHighScore = score > SaveController.GetHighScore ();
+		if (isHighScore)
+			SaveController.SetHighScore (score);
+		objHighScore.SetActive (isHighScore);
+
+	}
+
+
 	void Update () {
+		if (isGameOver)
+			return;
+
 		if (filterOffsetY > 1.5f) {
-			objGameOver.SetActive (true);
-			isGameOver = true;
+			InitGameOver ();
 			return;
 		}
 

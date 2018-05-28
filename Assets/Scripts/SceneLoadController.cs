@@ -3,7 +3,16 @@ using System.Collections;
 
 public class SceneLoadController : MonoBehaviour {
 
-	public void SceneLoad (){
+	public void SceneLoadMain (){
 		Application.LoadLevel ("main");
+	}
+
+	public void SceneLoadTitle (){
+		StartCoroutine (GoToTitleScene());
+	}
+
+	IEnumerator GoToTitleScene() {
+		yield return new WaitForSeconds(2.0f);
+		Application.LoadLevel ("title");
 	}
 }

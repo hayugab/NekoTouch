@@ -18,6 +18,8 @@ public class HomeController : MonoBehaviour {
 	const int NORMAL_POINT = 1;
 	const int DAMAGE_POINT = -3;
 	const int SPECIAL_POINT = 5;
+	const int SPECIAL_DAMAGE_POINT = -5;
+
 
 	// Use this for initialization
 	void Start () {
@@ -43,6 +45,14 @@ public class HomeController : MonoBehaviour {
 		case NekoController.NekoType.NekoRainbow:
 			if (type == NekoController.NekoType.Neko)
 				SpecialPoint (neko);
+			else
+				SpecialDamagePoint (neko);
+			break;
+		case NekoController.NekoType.InuRainbow:
+			if (type == NekoController.NekoType.Inu)
+				SpecialPoint (neko);
+			else
+				SpecialDamagePoint (neko);
 			break;
 		default:
 			break;
@@ -79,4 +89,11 @@ public class HomeController : MonoBehaviour {
 		mainController.AddNeko ();
 	}
 
+	void SpecialDamagePoint (NekoController neko) {
+		damageSound.Play ();
+		damageAnim.Play ();
+		mainController.SetPoint (SPECIAL_DAMAGE_POINT);
+		mainController.DestroyNeko (neko);
+		mainController.AddNeko ();
+	}
 }

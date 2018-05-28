@@ -88,12 +88,12 @@ GameObject:
   - component: {fileID: 4134434197462620}
   - component: {fileID: 212189929013469848}
   m_Layer: 0
-  m_Name: door
+  m_Name: inu_rainbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4134434197462620
 Transform:
   m_ObjectHideFlags: 1
@@ -242,6 +242,7 @@ MonoBehaviour:
   rigidbody: {fileID: 50086735860675702}
   box: {fileID: 61044634172650608}
   circle: {fileID: 58777132806827762}
+  nekoType: 0
 --- !u!212 &212145318223920990
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -320,7 +321,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 840974827a83240bc8c167551ddfe945, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ee566a9fc30794086a18a4e14843cf4a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
