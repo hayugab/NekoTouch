@@ -27,6 +27,10 @@ public class NekoController : MonoBehaviour {
 		ToggleNeko ();
 	}
 
+	public void Init () {
+		ToggleNeko ();
+	}
+
 	void ToggleNeko () {
 		int index = 0;
 		index = UnityEngine.Random.Range (0, 80);

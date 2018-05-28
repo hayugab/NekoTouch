@@ -10,6 +10,7 @@ public class TitleController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		var highScore = SaveController.GetHighScore ();
-		textScore.text = highScore.ToString() + "てん";
+		textScore.text = highScore.ToString() + "てん";	
 	}
+
 }
