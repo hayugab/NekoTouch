@@ -105,6 +105,24 @@ public class MainController : MonoBehaviour {
 		nekoList.Add (neko);
 	}
 
+	public void ShareNeko () {
+		StartCoroutine (ShareTwitter());
+	}
+
+	IEnumerator ShareTwitter () {
+		string fileName = System.DateTime.Now.ToString("ScreenShot yyyy-MM-dd HH.mm.ss") + ".png";
+		string imagePath = Application.persistentDataPath + "/" + fileName;
+
+		ScreenCapture.CaptureScreenshot (fileName);
+
+		yield return new WaitForEndOfFrame ();
+
+		string text = "ねこをたくさんわけたよ！ #テスト";
+		yield return new WaitForSeconds (1);
+
+		SocialConnector.SocialConnector.Share(text, "url", imagePath);
+	}
+
 	public void SetPoint (int point) {
 		this.point = point;
 		score += point * 5;
