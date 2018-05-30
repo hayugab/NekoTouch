@@ -12,13 +12,15 @@ public class MainController : MonoBehaviour {
 	[SerializeField] int nekoNum;
 	[SerializeField] BoxCollider2D filter;
 	[SerializeField] GameObject objGameOver;
-	[SerializeField] float filterSpeed;
+	[SerializeField] float startfilterSpeed;
 	[SerializeField] AudioSource btnSound;
 	[SerializeField] AudioSource mainBGM;
 	[SerializeField] AudioSource gameoverBGM;
 	[SerializeField] GameObject objHighScore;
 	[SerializeField] Text objGameOverScore;
 	[SerializeField] GameObject objScore;
+	[SerializeField] GameObject adsBtn;
+	[SerializeField] GameObject retryBtn;
 
 	List<NekoController> nekoList = new List<NekoController> ();
 
@@ -26,13 +28,23 @@ public class MainController : MonoBehaviour {
 	int score = 0;
 	float filterOffsetY;
 	bool down = false;
+	bool speedUp = false;
 	bool isGameOver = false;
 	int point = 0;
 	int timeCount = 0;
+	float filterSpeed;
 
 
 	const int TIME_COUNT_MAX = 10;
 
+	enum SpeedMode {
+		Slow,
+		Middle,
+		High,
+		Special
+	}
+
+	SpeedMode speedMode = SpeedMode.Slow;
 
 	public bool IsGameOver {
 		get { 
@@ -53,6 +65,7 @@ public class MainController : MonoBehaviour {
 		filterOffsetY = -1f;
 		point = 0;
 		score = 0;
+		filterSpeed = startfilterSpeed;
 		isGameOver = false;
 		objScore.gameObject.SetActive (true);
 		textScore.text = score.ToString ();
@@ -72,7 +85,13 @@ public class MainController : MonoBehaviour {
 		}		
 	}
 
-	public void retryInit() {
+	public void AdsShow() {
+		AdsController.ShowAd ();
+		adsBtn.gameObject.SetActive (false);
+		retryBtn.gameObject.SetActive (true);
+	}
+
+	public void RetryInit() {
 		btnSound.Play ();
 		Init ();
 	}
@@ -142,9 +161,13 @@ public class MainController : MonoBehaviour {
 		if (isHighScore)
 			SaveController.SetHighScore (score);
 		objHighScore.SetActive (isHighScore);
-
+		adsBtn.gameObject.SetActive (true);
+		retryBtn.gameObject.SetActive (false);
 	}
 
+	void SetFilterSpeed () {
+		filterSpeed += startfilterSpeed;
+	}
 
 	void Update () {
 		if (isGameOver)
@@ -155,8 +178,23 @@ public class MainController : MonoBehaviour {
 			return;
 		}
 
+		if (score > 100 && speedMode == SpeedMode.Slow) {
+			SetFilterSpeed ();
+			speedMode = SpeedMode.Middle;
+		}
+
+		if (score > 300 && speedMode == SpeedMode.Middle) {
+			SetFilterSpeed ();
+			speedMode = SpeedMode.High;
+		}
+
+		if (score > 500 && speedMode == SpeedMode.High) {
+			SetFilterSpeed ();
+			speedMode = SpeedMode.Special;
+		}
+
 		if (down) {
-			filterOffsetY -= filterSpeed * point;		
+			filterOffsetY -= startfilterSpeed * point;		
 			timeCount++;
 			if (TIME_COUNT_MAX == timeCount)
 				down = false;
