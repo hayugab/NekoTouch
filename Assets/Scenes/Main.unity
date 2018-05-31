@@ -198,6 +198,7 @@ GameObject:
   - component: {fileID: 249135245}
   - component: {fileID: 249135244}
   - component: {fileID: 249135243}
+  - component: {fileID: 249135246}
   m_Layer: 5
   m_Name: AdsButton
   m_TagString: Untagged
@@ -222,7 +223,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000076293945, y: -152.00003}
+  m_AnchoredPosition: {x: 0, y: -152.00003}
   m_SizeDelta: {x: 200, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &249135243
@@ -264,8 +265,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1119176582}
-        m_MethodName: AdsShow
+      - m_Target: {fileID: 249135246}
+        m_MethodName: ShowRewardedAd
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -310,6 +311,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 249135241}
+--- !u!114 &249135246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 249135241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c40aebcc8d44b1d81ead5e497f974e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainController: {fileID: 1119176582}
 --- !u!1 &284084947
 GameObject:
   m_ObjectHideFlags: 0
@@ -1738,6 +1751,7 @@ MonoBehaviour:
   objScore: {fileID: 1328454101}
   adsBtn: {fileID: 249135241}
   retryBtn: {fileID: 1615012667}
+  titleBtn: {fileID: 1858121702}
 --- !u!114 &1119176583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2801,7 +2815,7 @@ RectTransform:
   m_GameObject: {fileID: 1615012667}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0000061, y: 1.0000061, z: 1.0000061}
   m_Children:
   - {fileID: 674057175}
   m_Father: {fileID: 1906650650}
@@ -2809,7 +2823,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -152}
+  m_AnchoredPosition: {x: 0, y: -152.00003}
   m_SizeDelta: {x: 200, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1615012669
@@ -3428,7 +3442,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1858121703
 RectTransform:
   m_ObjectHideFlags: 0

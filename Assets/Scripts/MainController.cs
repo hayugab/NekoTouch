@@ -21,6 +21,7 @@ public class MainController : MonoBehaviour {
 	[SerializeField] GameObject objScore;
 	[SerializeField] GameObject adsBtn;
 	[SerializeField] GameObject retryBtn;
+	[SerializeField] GameObject titleBtn;
 
 	List<NekoController> nekoList = new List<NekoController> ();
 
@@ -33,6 +34,7 @@ public class MainController : MonoBehaviour {
 	int point = 0;
 	int timeCount = 0;
 	float filterSpeed;
+	int playCount = 0;
 
 
 	const int TIME_COUNT_MAX = 10;
@@ -81,12 +83,11 @@ public class MainController : MonoBehaviour {
 			var nekoObj = Instantiate (nekoPrefab, objField.gameObject.transform);
 			var neko = nekoObj.GetComponent<NekoController> ();
 			neko.Init (this);
-			nekoList.Add (neko);
+//			nekoList.Add (neko);
 		}		
 	}
 
 	public void AdsShow() {
-		AdsController.ShowAd ();
 		adsBtn.gameObject.SetActive (false);
 		retryBtn.gameObject.SetActive (true);
 	}
@@ -108,15 +109,15 @@ public class MainController : MonoBehaviour {
 		nekoList.Remove (neko);
 		Destroy (neko.gameObject);
 	}
-
-	public void DestroyAllNeko() {
-		foreach (var neko in nekoList) {
-			nekoList.Remove (neko);
-			Destroy (neko.gameObject);
-		}
-		Init ();
-	}
-
+//
+//	public void DestroyAllNeko() {
+//		foreach (var neko in nekoList) {
+//			nekoList.Remove (neko);
+//			Destroy (neko.gameObject);
+//		}
+//		Init ();
+//	}
+//
 	public void AddNeko () {
 		var nekoObj = Instantiate (nekoPrefab, objField.gameObject.transform);
 		var neko = nekoObj.GetComponent<NekoController> ();
@@ -150,6 +151,18 @@ public class MainController : MonoBehaviour {
 		timeCount = 0;
 	}
 
+	void ShowAdsBtn() {
+		adsBtn.gameObject.SetActive (true);
+		retryBtn.gameObject.SetActive (false);
+//		titleBtn.gameObject.SetActive (false);
+	}
+
+	public void ShowRetryBtn () {
+		adsBtn.gameObject.SetActive (false);
+		retryBtn.gameObject.SetActive (true);
+//		titleBtn.gameObject.SetActive (true);
+	}
+
 	void InitGameOver () {
 		objGameOver.SetActive (true);
 		isGameOver = true;
@@ -161,8 +174,13 @@ public class MainController : MonoBehaviour {
 		if (isHighScore)
 			SaveController.SetHighScore (score);
 		objHighScore.SetActive (isHighScore);
-		adsBtn.gameObject.SetActive (true);
-		retryBtn.gameObject.SetActive (false);
+		if (playCount >= 2) {
+			playCount = 0;
+			ShowAdsBtn ();
+			return;
+		}
+		playCount++;
+		ShowRetryBtn ();
 	}
 
 	void SetFilterSpeed () {
