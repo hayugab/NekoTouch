@@ -7,6 +7,10 @@ public class SceneLoadController : MonoBehaviour {
 		Application.LoadLevel ("main");
 	}
 
+	public void SceneLoadTutorial (){
+		Application.LoadLevel ("tutorial");
+	}
+
 	public void SceneLoadTitle (){
 		StartCoroutine (GoToTitleScene());
 	}

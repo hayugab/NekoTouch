@@ -5,6 +5,7 @@ using UnityEngine;
 public class SaveController : MonoBehaviour {
 
 	const string highScoreKey = "HIGH SCORE";
+	const string tutorialFinishedKey = "TUTORIAL FINISH";
 
 	// Use this for initialization
 	void Start () {
@@ -23,5 +24,14 @@ public class SaveController : MonoBehaviour {
 
 	public static void SetHighScore (int highScore) {
 		PlayerPrefs.SetInt(highScoreKey, highScore);
+	}
+
+	public static int GetIsTutorialFinished () {
+		int isTutorialFinished = PlayerPrefs.GetInt (tutorialFinishedKey, 0);
+		return isTutorialFinished;
+	}
+
+	public static void SetIsTutorialFinished (int isTutorial) {
+		PlayerPrefs.SetInt (tutorialFinishedKey, isTutorial);
 	}
 }

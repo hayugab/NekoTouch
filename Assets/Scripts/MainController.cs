@@ -109,15 +109,7 @@ public class MainController : MonoBehaviour {
 		nekoList.Remove (neko);
 		Destroy (neko.gameObject);
 	}
-//
-//	public void DestroyAllNeko() {
-//		foreach (var neko in nekoList) {
-//			nekoList.Remove (neko);
-//			Destroy (neko.gameObject);
-//		}
-//		Init ();
-//	}
-//
+
 	public void AddNeko () {
 		var nekoObj = Instantiate (nekoPrefab, objField.gameObject.transform);
 		var neko = nekoObj.GetComponent<NekoController> ();
