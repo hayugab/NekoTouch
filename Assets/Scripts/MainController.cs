@@ -12,7 +12,6 @@ public class MainController : MonoBehaviour {
 	[SerializeField] int nekoNum;
 	[SerializeField] BoxCollider2D filter;
 	[SerializeField] GameObject objGameOver;
-	[SerializeField] float startfilterSpeed;
 	[SerializeField] AudioSource btnSound;
 	[SerializeField] AudioSource mainBGM;
 	[SerializeField] AudioSource gameoverBGM;
@@ -22,11 +21,15 @@ public class MainController : MonoBehaviour {
 	[SerializeField] GameObject adsBtn;
 	[SerializeField] GameObject retryBtn;
 	[SerializeField] GameObject titleBtn;
+	[SerializeField] float downFilterSpeed;
+	[SerializeField] float[] filterSpeedList;
+	[SerializeField] int[] filterScoreList;
 
 	List<NekoController> nekoList = new List<NekoController> ();
 
 	GameObject nekoPrefab;
 	int score = 0;
+	int prevScore = 0;
 	float filterOffsetY;
 	bool down = false;
 	bool speedUp = false;
@@ -35,18 +38,22 @@ public class MainController : MonoBehaviour {
 	int timeCount = 0;
 	float filterSpeed;
 	int playCount = 0;
+	int filterSpeedIndex = 0;
 
 
 	const int TIME_COUNT_MAX = 10;
 
 	enum SpeedMode {
-		Slow,
-		Middle,
-		High,
-		Special
+		One,
+		Two,
+		Three,
+		Four,
+		Five,
+		Six,
+		Seven
 	}
 
-	SpeedMode speedMode = SpeedMode.Slow;
+	SpeedMode speedMode = SpeedMode.One;
 
 	public bool IsGameOver {
 		get { 
@@ -67,7 +74,9 @@ public class MainController : MonoBehaviour {
 		filterOffsetY = -1f;
 		point = 0;
 		score = 0;
-		filterSpeed = startfilterSpeed;
+		prevScore = 0;
+		filterSpeedIndex = 0;
+		SetFilterSpeed (filterSpeedIndex);
 		isGameOver = false;
 		objScore.gameObject.SetActive (true);
 		textScore.text = score.ToString ();
@@ -83,7 +92,6 @@ public class MainController : MonoBehaviour {
 			var nekoObj = Instantiate (nekoPrefab, objField.gameObject.transform);
 			var neko = nekoObj.GetComponent<NekoController> ();
 			neko.Init (this);
-//			nekoList.Add (neko);
 		}		
 	}
 
@@ -129,30 +137,45 @@ public class MainController : MonoBehaviour {
 
 		yield return new WaitForEndOfFrame ();
 
-		string text = "ねこをたくさんわけたよ！ #テスト";
+		string text = "ねこをたくさんわけたよ！ #ねこわける";
 		yield return new WaitForSeconds (1);
 
 		SocialConnector.SocialConnector.Share(text, "url", imagePath);
 	}
 
 	public void SetPoint (int point) {
+		prevScore = score;
 		this.point = point;
-		score += point * 5;
+		score += point * 100;
 		textScore.text = score.ToString ();
 		down = true;
 		timeCount = 0;
 	}
 
+	public void CheckFilterSpeed () {
+		for (int i = 1; i < filterScoreList.Length; i++) {
+			Debug.Log ("prevScore:" + prevScore + ", score:" + score);
+
+			var filterscore = filterScoreList [i];
+			if (filterscore > score)
+				break;
+
+			if (prevScore < filterscore && score >= filterscore) {
+				filterSpeedIndex = i;
+				SetFilterSpeed (filterSpeedIndex);
+				break;
+			}
+		}
+	}
+
 	void ShowAdsBtn() {
 		adsBtn.gameObject.SetActive (true);
 		retryBtn.gameObject.SetActive (false);
-//		titleBtn.gameObject.SetActive (false);
 	}
 
 	public void ShowRetryBtn () {
 		adsBtn.gameObject.SetActive (false);
 		retryBtn.gameObject.SetActive (true);
-//		titleBtn.gameObject.SetActive (true);
 	}
 
 	void InitGameOver () {
@@ -174,9 +197,11 @@ public class MainController : MonoBehaviour {
 		playCount++;
 		ShowRetryBtn ();
 	}
-
-	void SetFilterSpeed () {
-		filterSpeed += startfilterSpeed;
+		
+	void SetFilterSpeed(int index) {
+		if (filterSpeedList.Length <= index)
+			return;
+		filterSpeed = filterSpeedList [index];
 	}
 
 	void Update () {
@@ -188,23 +213,9 @@ public class MainController : MonoBehaviour {
 			return;
 		}
 
-		if (score > 100 && speedMode == SpeedMode.Slow) {
-			SetFilterSpeed ();
-			speedMode = SpeedMode.Middle;
-		}
+		if (down) {	
+			filterOffsetY -= downFilterSpeed * point;		
 
-		if (score > 300 && speedMode == SpeedMode.Middle) {
-			SetFilterSpeed ();
-			speedMode = SpeedMode.High;
-		}
-
-		if (score > 500 && speedMode == SpeedMode.High) {
-			SetFilterSpeed ();
-			speedMode = SpeedMode.Special;
-		}
-
-		if (down) {
-			filterOffsetY -= startfilterSpeed * point;		
 			timeCount++;
 			if (TIME_COUNT_MAX == timeCount)
 				down = false;
@@ -213,7 +224,5 @@ public class MainController : MonoBehaviour {
 		}
 
 		filter.transform.position = new Vector3 (filter.transform.position.x, filterOffsetY, filter.transform.position.z);
-	
-
 	}
 }

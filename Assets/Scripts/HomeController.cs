@@ -63,6 +63,7 @@ public class HomeController : MonoBehaviour {
 		pointSound.Play ();
 		pointAnim.Play ();
 		mainController.SetPoint (NORMAL_POINT);
+		mainController.CheckFilterSpeed ();
 		mainController.DestroyNeko (neko);
 		mainController.AddNeko ();
 	}
@@ -71,6 +72,7 @@ public class HomeController : MonoBehaviour {
 		damageSound.Play ();
 		damageAnim.Play ();
 		mainController.SetPoint (DAMAGE_POINT);
+		mainController.CheckFilterSpeed ();
 		mainController.DestroyNeko (neko);
 		mainController.AddNeko ();
 	} 
@@ -85,6 +87,7 @@ public class HomeController : MonoBehaviour {
 			pointAnim.Play ();
 		}
 		mainController.SetPoint (SPECIAL_POINT);
+		mainController.CheckFilterSpeed ();
 		mainController.DestroyNeko (neko);
 		mainController.AddNeko ();
 	}
@@ -93,6 +96,7 @@ public class HomeController : MonoBehaviour {
 		damageSound.Play ();
 		damageAnim.Play ();
 		mainController.SetPoint (SPECIAL_DAMAGE_POINT);
+		mainController.CheckFilterSpeed ();
 		mainController.DestroyNeko (neko);
 		mainController.AddNeko ();
 	}
