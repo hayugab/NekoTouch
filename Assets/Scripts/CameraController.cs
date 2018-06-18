@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour {
 		if (deviceAspect < 0.5f) {
 			camera.orthographicSize = 2.4f;
 			if (!isTutorial)
-				camera.transform.position = new Vector3 (camera.transform.position.x, camera.transform.position.y - 0.4f, camera.transform.position.z);
+				camera.transform.position = new Vector3 (camera.transform.position.x, camera.transform.position.y - 0.2f, camera.transform.position.z);
 		}
 	}
 	

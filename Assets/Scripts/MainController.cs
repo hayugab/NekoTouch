@@ -34,6 +34,7 @@ public class MainController : MonoBehaviour {
 	bool down = false;
 	bool speedUp = false;
 	bool isGameOver = false;
+	bool isPause = false;
 	int point = 0;
 	int timeCount = 0;
 	float filterSpeed;
@@ -204,8 +205,15 @@ public class MainController : MonoBehaviour {
 		filterSpeed = filterSpeedList [index];
 	}
 
+	public void SetPause (bool isPause) {
+		this.isPause = isPause;
+	}
+
 	void Update () {
 		if (isGameOver)
+			return;
+
+		if (GameDataManager.gameDateManagerIsPause)
 			return;
 
 		if (filterOffsetY > 1.5f) {

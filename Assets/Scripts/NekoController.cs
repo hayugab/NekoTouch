@@ -75,7 +75,8 @@ public class NekoController : MonoBehaviour {
 
 	void OnMouseDown ()
 	{
-		if (mainController.IsGameOver)
+
+		if (mainController.IsGameOver || GameDataManager.gameDateManagerIsPause)
 			return;
 		iTween.PunchScale (this.gameObject, iTween.Hash (
 			"x", 0.3f,
@@ -95,7 +96,7 @@ public class NekoController : MonoBehaviour {
 
 	void OnMouseDrag ()
 	{
-		if (mainController.IsGameOver)
+		if (mainController.IsGameOver || GameDataManager.gameDateManagerIsPause)
 			return;
 		Vector3 currentScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		Vector3 currentPosition = Camera.main.ScreenToWorldPoint (currentScreenPoint) + this.offset;
@@ -107,7 +108,7 @@ public class NekoController : MonoBehaviour {
 	}
 
 	void OnMouseUp () {
-		if (mainController.IsGameOver)
+		if (mainController.IsGameOver || GameDataManager.gameDateManagerIsPause)
 			return;
 		iTween.PunchScale (this.gameObject, iTween.Hash (
 			"x", 0.3f,
