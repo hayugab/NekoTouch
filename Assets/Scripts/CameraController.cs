@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
+	[SerializeField] bool isTutorial;
+
 	// Use this for initialization
 	void Start () {
 		//画面のアスペクト比を取得
@@ -13,7 +15,8 @@ public class CameraController : MonoBehaviour {
 		Debug.Log(deviceAspect);
 		if (deviceAspect < 0.5f) {
 			camera.orthographicSize = 2.4f;
-			camera.transform.position = new Vector3 (camera.transform.position.x, camera.transform.position.y - 0.4f, camera.transform.position.z);
+			if (!isTutorial)
+				camera.transform.position = new Vector3 (camera.transform.position.x, camera.transform.position.y - 0.4f, camera.transform.position.z);
 		}
 	}
 	
