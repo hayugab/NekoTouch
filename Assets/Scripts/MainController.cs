@@ -140,7 +140,7 @@ public class MainController : MonoBehaviour {
 		string text = "ねこをたくさんわけたよ！ #ねこわける";
 		yield return new WaitForSeconds (1);
 
-		SocialConnector.SocialConnector.Share(text, "url", imagePath);
+		SocialConnector.SocialConnector.Share(text, "", imagePath);
 	}
 
 	public void SetPoint (int point) {
