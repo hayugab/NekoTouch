@@ -19,4 +19,12 @@ public class SceneLoadController : MonoBehaviour {
 		yield return new WaitForSeconds(1.0f);
 		Application.LoadLevel ("title");
 	}
+
+	public void SceneLoadRanking (){
+		Application.LoadLevel ("ranking");
+	}
+
+	public void SceneLoadInputName (){
+		Application.LoadLevel ("inputname");
+	}
 }

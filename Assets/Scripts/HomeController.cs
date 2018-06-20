@@ -14,12 +14,11 @@ public class HomeController : MonoBehaviour {
 	[SerializeField] Animation damageAnim;
 	[SerializeField] Animation rainbowAnim;
 
-
 	const int NORMAL_POINT = 1;
 	const int DAMAGE_POINT = -3;
 	const int SPECIAL_POINT = 5;
 	const int SPECIAL_DAMAGE_POINT = -5;
-
+	NekoController enterNeko = null;
 
 	// Use this for initialization
 	void Start () {
@@ -33,7 +32,9 @@ public class HomeController : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D c)
 	{
 		var neko = c.GetComponent<NekoController> ();
-
+		if (enterNeko == neko)
+			return;
+		enterNeko = neko;
 		switch (neko.nekoType) {
 		case NekoController.NekoType.Inu:
 		case NekoController.NekoType.Neko:

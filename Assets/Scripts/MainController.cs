@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using NCMB;
+using System;
 
 public class MainController : MonoBehaviour {
 	
@@ -155,8 +156,6 @@ public class MainController : MonoBehaviour {
 
 	public void CheckFilterSpeed () {
 		for (int i = 1; i < filterScoreList.Length; i++) {
-			Debug.Log ("prevScore:" + prevScore + ", score:" + score);
-
 			var filterscore = filterScoreList [i];
 			if (filterscore > score)
 				break;
@@ -187,8 +186,10 @@ public class MainController : MonoBehaviour {
 		objGameOverScore.text = score.ToString ();
 		objScore.gameObject.SetActive (false);
 		bool isHighScore = score > SaveController.GetHighScore ();
-		if (isHighScore)
+		if (isHighScore) {
 			SaveController.SetHighScore (score);
+			StartCoroutine (SendHighScore (score));
+		}
 		objHighScore.SetActive (isHighScore);
 		if (playCount >= 2) {
 			playCount = 0;
@@ -198,6 +199,30 @@ public class MainController : MonoBehaviour {
 		playCount++;
 		ShowRetryBtn ();
 	}
+
+	IEnumerator SendHighScore (int score) {
+		NCMBQuery<NCMBObject> query = new NCMBQuery<NCMBObject> ("HighScore");
+		var uuid = SaveController.GetUuid ();
+
+		query.WhereEqualTo("Uuid",uuid);
+		query.FindAsync ((List<NCMBObject> objList ,NCMBException e) => {
+			if (e != null) {
+				NCMBObject obj = new NCMBObject("HighScore");
+				obj ["Name"] = SaveController.GetName ();
+				obj["Score"] = SaveController.GetHighScore();
+				obj ["Uuid"] = SaveController.GetUuid ();
+				obj.SaveAsync();
+			} else {
+				foreach (NCMBObject obj in objList) {
+					Debug.Log ("objectId:" + obj.ObjectId);
+					obj["Score"] = SaveController.GetHighScore();
+					obj.SaveAsync();
+				}
+			}
+		});
+		yield return null;
+	}
+
 		
 	void SetFilterSpeed(int index) {
 		if (filterSpeedList.Length <= index)
